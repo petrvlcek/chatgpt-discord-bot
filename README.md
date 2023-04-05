@@ -1,5 +1,8 @@
 # ChatGPT Discord Bot
 
+[![Docker Hub](https://img.shields.io/badge/%20-DockerHub-blue?logo=docker&style=plastic)](https://hub.docker.com/r/petrvlcek/chatgpt-discord-bot)
+![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/petrvlcek/chatgpt-discord-bot?sort=date&style=plastic)
+
 ChatGPTBot is a Discord bot that uses OpenAI's GPT-3 to generate intelligent and realistic messages in chat channels.
 
 ## Running with Docker
