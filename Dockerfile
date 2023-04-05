@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bullseye
 
-RUN apt update && apt install -y jq
+RUN apt update && apt install -y jq curl
 
 ENV APP_HOME /app
 WORKDIR $APP_HOME
