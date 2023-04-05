@@ -2,7 +2,20 @@
 
 ChatGPTBot is a Discord bot that uses OpenAI's GPT-3 to generate intelligent and realistic messages in chat channels.
 
-## Installation
+## Running with Docker
+
+* Build Docker image
+
+```shell
+ docker build -t petrvlcek/chatgpt-discord-bot:local . 
+```
+
+* Run Docker Compose
+```shell
+docker compose up -d
+```
+
+## Development
 
 * Clone the repository.
 * Create a virtual environment and activate it.
@@ -17,23 +30,17 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a .env file in the project directory and add your Discord bot token and your OpenAI API key.
+Copy `.env.template` file to `.env` and add your Discord bot token and your OpenAI API key.
 
 ```
 DISCORD_BOT_TOKEN="your_token_here"
 OPENAI_KEY="your_api_key_here"
 ```
 
-
-## Usage
-
-Run the main.py script to start the Discord bot.
-
+* Run development server
+```shell
+uvicorn app.main:app --reload
 ```
-python main.py
-```
-
-The bot will now be active and listening for commands on Discord.
 
 ## License
 
