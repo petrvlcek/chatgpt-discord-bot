@@ -3,8 +3,8 @@ import logging
 import openai
 import discord
 
-from config import Configuration
-from healthchecks import HealthCheck, HealthCheckStatus
+from app.config import Configuration
+from app.healthchecks import HealthCheck, HealthCheckStatus
 
 _log = logging.getLogger(__name__)
 
@@ -20,14 +20,14 @@ class ChatGPTBot(discord.Client, HealthCheck):
         self.config = config
 
     async def init(self):
-        openai.api_key = self.config.get_openai_api_key()
+        openai.api_key = self.config.OPENAI_API_KEY
         discord.utils.setup_logging(
             handler=discord.utils.MISSING,
             formatter=discord.utils.MISSING,
             level=discord.utils.MISSING,
             root=False,
         )
-        await self.start(self.config.get_discord_token())
+        await self.start(self.config.DISCORD_BOT_TOKEN)
 
     def is_healthy(self) -> HealthCheckStatus:
         return HealthCheckStatus(self.__class__.__name__, is_healthy=self.connected)

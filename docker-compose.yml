@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: [ "CMD-SHELL", "curl -f -k -s https://localhost:8000/health" ]
+      test: [ "CMD-SHELL", "curl -f -k -s http://localhost:8000/health | jq -e '.is_healthy == true' > /dev/null" ]
       interval: 30s
       timeout: 5s
       retries: 10

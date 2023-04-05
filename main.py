@@ -2,12 +2,12 @@ import asyncio
 
 from fastapi import FastAPI
 
-from bot import ChatGPTBot
-from config import EnvConfiguration
-from healthchecks import HealthCheckService
+from app.bot import ChatGPTBot
+from app.config import load_config
+from app.healthchecks import HealthCheckService
 
 app = FastAPI()
-config = EnvConfiguration()
+config = load_config()
 bot = ChatGPTBot(config)
 health = HealthCheckService(health_checks=[bot])
 

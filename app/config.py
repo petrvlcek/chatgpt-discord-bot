@@ -1,22 +1,25 @@
 import os
+from dataclasses import dataclass
+
+from dotenv import load_dotenv
 
 
+@dataclass
 class Configuration:
-
-    def get_discord_token(self) -> str:
-        pass
-
-    def get_openai_api_key(self) -> str:
-        pass
+    DISCORD_BOT_TOKEN: str
+    OPENAI_API_KEY: str
 
 
-class EnvConfiguration(Configuration):
-    def __init__(self):
-        self.discord_token = os.getenv('DISCORD_BOT_TOKEN')
-        self.openai_api_key = os.getenv('OPENAI_KEY')
+def load_config() -> Configuration:
+    load_dotenv()
+    return Configuration(
+        DISCORD_BOT_TOKEN=required('DISCORD_BOT_TOKEN'),
+        OPENAI_API_KEY=required('OPENAI_KEY')
+    )
 
-    def get_discord_token(self) -> str:
-        return self.discord_token
 
-    def get_openai_api_key(self) -> str:
-        return self.openai_api_key
+def required(key: str) -> str:
+    if key in os.environ:
+        return os.environ[key]
+    else:
+        raise RuntimeError(f"{key} environment variable is required")
