@@ -33,8 +33,11 @@ class ChatGPTBot(discord.Client, HealthCheck):
         return HealthCheckStatus(self.__class__.__name__, is_healthy=self.connected)
 
     async def on_ready(self):
-        self.connected = True
         _log.info('Logged on as', self.user)
+
+    async def on_connect(self):
+        self.connected = True
+        _log.info('Connected to the server')
 
     async def on_disconnect(self):
         self.connected = False
