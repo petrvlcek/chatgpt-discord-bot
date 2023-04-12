@@ -3,14 +3,13 @@ import logging
 import openai
 import discord
 
-from app.config import Configuration
-from app.healthchecks import HealthCheck, HealthCheckStatus
+from config import Configuration
+from healthchecks import HealthCheck, HealthCheckStatus
 
-_log = logging.getLogger(__name__)
-
+logger = logging.getLogger(__name__)
 
 class ChatGPTBot(discord.Client, HealthCheck):
-    def __init__(self, config: Configuration, model: str = "gpt-3.5-turbo", role: str = "a nerd"):
+    def __init__(self, config: Configuration, model: str = "gpt-3.5-turbo", role: str = "Holly, onboard supercomputer"):
         intents = discord.Intents.default()
         intents.message_content = True
         super().__init__(intents=intents)
@@ -21,10 +20,11 @@ class ChatGPTBot(discord.Client, HealthCheck):
 
     async def init(self):
         openai.api_key = self.config.OPENAI_API_KEY
+        discord_logger = logging.getLogger("discord")
         discord.utils.setup_logging(
-            handler=discord.utils.MISSING,
-            formatter=discord.utils.MISSING,
-            level=discord.utils.MISSING,
+            handler=discord_logger.handlers[0],
+            level=discord_logger.level,
+            formatter=discord_logger.handlers[0].formatter,
             root=False,
         )
         await self.start(self.config.DISCORD_BOT_TOKEN)
@@ -33,15 +33,15 @@ class ChatGPTBot(discord.Client, HealthCheck):
         return HealthCheckStatus(self.__class__.__name__, is_healthy=self.connected)
 
     async def on_ready(self):
-        _log.info('Logged on as', self.user)
+        logger.info('Logged on as %s', self.user)
 
     async def on_connect(self):
         self.connected = True
-        _log.info('Connected to the server')
+        logger.info('Connected to the server')
 
     async def on_disconnect(self):
         self.connected = False
-        _log.info('Disconnected form the server')
+        logger.info('Disconnected form the server')
 
     async def on_message(self, message):
         # don't respond to ourselves

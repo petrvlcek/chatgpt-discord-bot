@@ -42,7 +42,8 @@ pip install -r requirements.txt
 
 * Run development server
 ```shell
-uvicorn app.main:app --reload
+cd app
+uvicorn app:app --reload
 ```
 
 * Building a new Docker release
